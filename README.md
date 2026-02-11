@@ -32,6 +32,13 @@ All endpoints are under `/products`:
 | PUT    | `/products/{id}`   | 200/404 | Update an existing product |
 | DELETE | `/products/{id}`   | 200/404 | Delete a product           |
 
+Reviews are nested under products:
+
+| Method | Path                              | Status  | Description                    |
+|--------|-----------------------------------|---------|--------------------------------|
+| GET    | `/products/{id}/reviews`          | 200/404 | List reviews for a product     |
+| POST   | `/products/{id}/reviews`          | 201/404 | Create a review for a product  |
+
 ### Architecture
 
 A two-layer setup: `ProductController` (REST) talks directly to `ProductRepository` (Spring Data JPA). There is no service layer. Hibernate manages the schema automatically (`ddl-auto: update`).
