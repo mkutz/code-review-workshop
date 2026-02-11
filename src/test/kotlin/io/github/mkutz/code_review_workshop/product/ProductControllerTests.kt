@@ -147,4 +147,54 @@ class ProductControllerTests(
         mockMvc.perform(get("/products/${UUID(0L, 0L)}"))
             .andExpect(status().isNotFound)
     }
+
+    @Test
+    fun `create and list reviews`() {
+        val productJson = objectMapper.writeValueAsString(
+            mapOf(
+                "name" to "Reviewed Product",
+                "price" to 49.99,
+                "category" to "Test"
+            )
+        )
+
+        val productResult = mockMvc.perform(
+            post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(productJson)
+        )
+            .andExpect(status().isCreated)
+            .andReturn()
+
+        val productId = objectMapper.readTree(productResult.response.contentAsString)["id"].asString()
+
+        val reviewJson = objectMapper.writeValueAsString(
+            mapOf(
+                "author" to "Alice",
+                "rating" to 5,
+                "comment" to "Great product!"
+            )
+        )
+
+        mockMvc.perform(
+            post("/products/$productId/reviews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(reviewJson)
+        )
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.author").value("Alice"))
+            .andExpect(jsonPath("$.rating").value(5))
+
+        mockMvc.perform(get("/products/$productId/reviews"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$").isArray)
+            .andExpect(jsonPath("$[0].author").value("Alice"))
+            .andExpect(jsonPath("$[0].rating").value(5))
+    }
+
+    @Test
+    fun `reviews for non-existent product returns 404`() {
+        mockMvc.perform(get("/products/${UUID(0L, 0L)}/reviews"))
+            .andExpect(status().isNotFound)
+    }
 }
