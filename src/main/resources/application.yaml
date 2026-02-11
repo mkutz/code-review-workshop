@@ -1,3 +1,6 @@
 spring:
   application:
     name: code-review-workshop
+  jpa:
+    hibernate:
+      ddl-auto: update
