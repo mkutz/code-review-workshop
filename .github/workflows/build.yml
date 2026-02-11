@@ -5,13 +5,23 @@ on:
     branches: [phase-1, phase-2]
   pull_request:
     branches: [phase-1, phase-2]
+  pull_request_target:
+    branches: [phase-1, phase-2]
+
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: >
+      github.event_name != 'pull_request_target' || github.actor == 'dependabot[bot]'
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - uses: actions/setup-java@v5
         with:
