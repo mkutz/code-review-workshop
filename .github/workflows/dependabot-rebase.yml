@@ -12,7 +12,7 @@ jobs:
   rebase-dependabot-prs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Update all open Dependabot PR branches
         run: |
           gh pr list --author "app/dependabot" --state open --json number --jq '.[].number' \
