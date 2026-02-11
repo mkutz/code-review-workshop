@@ -30,7 +30,7 @@ All endpoints are under `/products`:
 | GET    | `/products/{id}`   | 200/404 | Get a product by ID        |
 | POST   | `/products`        | 201     | Create a new product       |
 | PUT    | `/products/{id}`   | 200/404 | Update an existing product |
-| DELETE | `/products/{id}`   | 204     | Delete a product           |
+| DELETE | `/products/{id}`   | 200/404 | Delete a product           |
 
 ### Architecture
 
