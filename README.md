@@ -41,6 +41,10 @@ A two-layer setup: `ProductController` (REST) talks directly to `ProductReposito
 
 There are three open pull requests on this repository, each adding a small feature. Your task is to review them as you would in a real project.
 
+- [PR #9: Add product search endpoint](https://github.com/mkutz/code-review-workshop/pull/9)
+- [PR #10: Return deleted product in response](https://github.com/mkutz/code-review-workshop/pull/10)
+- [PR #11: Add product reviews](https://github.com/mkutz/code-review-workshop/pull/11)
+
 For each PR:
 
 1. Open the PR on GitHub and read through the diff.
@@ -60,7 +64,20 @@ After you've reviewed all three PRs, we'll discuss what people found and what th
 
 ### Phase 2: The Big Diff Problem
 
-_Details will be shared during the workshop._
+There is a [large refactoring PR](https://github.com/mkutz/code-review-workshop/pull/14) that restructures the entire codebase from layered architecture to hexagonal architecture. It touches almost every file in the project.
+
+**Exercise:**
+
+1. Open [PR #14](https://github.com/mkutz/code-review-workshop/pull/14) and try to review the full diff.
+2. Then switch to reviewing it commit-by-commit (use the "Commits" tab on GitHub).
+3. Compare the two approaches: What did you notice commit-by-commit that you missed in the full diff?
+
+**Things to think about while reviewing:**
+
+- Is this purely a structural refactoring, or did any behavior change?
+- How confident are you in your review of the full diff?
+- Would you approve this PR as-is?
+- What could the author have done to make this easier to review?
 
 ### Phase 3: Alternatives to Code Reviews
 
