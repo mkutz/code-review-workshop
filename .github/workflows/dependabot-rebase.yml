@@ -2,7 +2,7 @@ name: Rebase Dependabot PRs
 
 on:
   push:
-    branches: [main]
+    branches: [phase-1, phase-2]
 
 permissions:
   contents: write
