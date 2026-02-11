@@ -1,6 +1,6 @@
 package io.github.mkutz.code_review_workshop.product.adapter.out.persistence
 
-import io.github.mkutz.code_review_workshop.category.CategoryRepository
+import io.github.mkutz.code_review_workshop.category.adapter.out.persistence.CategoryJpaRepository
 import io.github.mkutz.code_review_workshop.product.domain.model.Product
 import io.github.mkutz.code_review_workshop.product.domain.port.out.LoadProductPort
 import io.github.mkutz.code_review_workshop.product.domain.port.out.SaveProductPort
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class ProductPersistenceAdapter(
     private val productJpaRepository: ProductJpaRepository,
     private val productSearchJpaRepository: ProductSearchJpaRepository,
-    private val categoryRepository: CategoryRepository,
+    private val categoryJpaRepository: CategoryJpaRepository,
     private val productMapper: ProductMapper,
 ) : LoadProductPort, SaveProductPort {
 
@@ -29,7 +29,7 @@ class ProductPersistenceAdapter(
     override fun existsById(id: UUID): Boolean = productJpaRepository.existsById(id)
 
     override fun saveProduct(product: Product): Product {
-        val category = product.categoryId?.let { categoryRepository.findById(it).orElse(null) }
+        val category = product.categoryId?.let { categoryJpaRepository.findById(it).orElse(null) }
         val entity = productMapper.toEntity(product, category)
         return productMapper.toDomain(productJpaRepository.save(entity))
     }

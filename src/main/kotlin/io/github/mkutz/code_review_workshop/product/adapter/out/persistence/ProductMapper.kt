@@ -1,6 +1,6 @@
 package io.github.mkutz.code_review_workshop.product.adapter.out.persistence
 
-import io.github.mkutz.code_review_workshop.category.Category
+import io.github.mkutz.code_review_workshop.category.adapter.out.persistence.CategoryEntity
 import io.github.mkutz.code_review_workshop.product.domain.model.Product
 import org.springframework.stereotype.Component
 
@@ -17,7 +17,7 @@ class ProductMapper {
             inStock = entity.inStock,
         )
 
-    fun toEntity(product: Product, category: Category?): ProductEntity =
+    fun toEntity(product: Product, category: CategoryEntity?): ProductEntity =
         ProductEntity(
             id = product.id,
             name = product.name,
