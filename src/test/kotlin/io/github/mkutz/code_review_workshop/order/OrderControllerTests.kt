@@ -65,7 +65,7 @@ class OrderControllerTests(
             mapOf(
                 "name" to "Test Product",
                 "price" to 25.00,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
