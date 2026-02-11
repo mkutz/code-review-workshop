@@ -29,6 +29,15 @@ The application manages **categories**, **products**, **reviews**, **customers**
 | category    | Category    | yes      | —       |
 | inStock     | Boolean     | no       | true    |
 
+**Customer**
+
+| Field   | Type   | Required | Default |
+|---------|--------|----------|---------|
+| id      | UUID   | auto     | —       |
+| name    | String | yes      | —       |
+| email   | String | yes      | —       |
+| address | String | no       | null    |
+
 ### API Endpoints
 
 Endpoints for categories:
@@ -51,6 +60,16 @@ Endpoints for products:
 | POST   | `/products`        | 201     | Create a new product       |
 | PUT    | `/products/{id}`   | 200/404 | Update an existing product |
 | DELETE | `/products/{id}`   | 200/404 | Delete a product           |
+
+Endpoints for customers:
+
+| Method | Path               | Status  | Description                |
+|--------|--------------------|---------|----------------------------|
+| GET    | `/customers`       | 200     | List all customers         |
+| GET    | `/customers/{id}`  | 200/404 | Get a customer by ID       |
+| POST   | `/customers`       | 201     | Create a new customer      |
+| PUT    | `/customers/{id}`  | 200/404 | Update an existing customer|
+| DELETE | `/customers/{id}`  | 200/404 | Delete a customer          |
 
 Reviews are nested under products:
 
