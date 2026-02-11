@@ -1,6 +1,6 @@
-package io.github.mkutz.code_review_workshop.order
+package io.github.mkutz.code_review_workshop.order.adapter.out.persistence
 
-import io.github.mkutz.code_review_workshop.customer.Customer
+import io.github.mkutz.code_review_workshop.customer.adapter.out.persistence.CustomerEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -14,13 +14,13 @@ import java.util.UUID
 
 @Entity
 @Table(name = "orders")
-class Order(
+class OrderEntity(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID? = null,
     @ManyToOne
-    var customer: Customer,
+    var customer: CustomerEntity? = null,
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var items: MutableList<OrderItem> = mutableListOf(),
+    var items: MutableList<OrderItemEntity> = mutableListOf(),
     var status: String = "PENDING",
     var totalPrice: BigDecimal = BigDecimal.ZERO,
 )
