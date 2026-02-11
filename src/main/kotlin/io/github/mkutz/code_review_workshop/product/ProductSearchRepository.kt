@@ -8,7 +8,7 @@ class ProductSearchRepository(private val entityManager: EntityManager) {
 
     fun searchByName(name: String): List<Product> =
         entityManager.createQuery(
-            "SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER('%$name%')",
+            "SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(:name)",
             Product::class.java,
-        ).resultList
+        ).setParameter("name", "%$name%").resultList
 }

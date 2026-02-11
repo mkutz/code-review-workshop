@@ -25,11 +25,12 @@ All endpoints are under `/products`:
 
 | Method | Path             | Status  | Description              |
 |--------|------------------|---------|--------------------------|
-| GET    | `/products`      | 200     | List all products        |
-| GET    | `/products/{id}` | 200/404 | Get a product by ID      |
-| POST   | `/products`      | 201     | Create a new product     |
-| PUT    | `/products/{id}` | 200/404 | Update an existing product |
-| DELETE | `/products/{id}` | 204     | Delete a product         |
+| GET    | `/products`        | 200     | List all products          |
+| GET    | `/products/search` | 200     | Search products by name    |
+| GET    | `/products/{id}`   | 200/404 | Get a product by ID        |
+| POST   | `/products`        | 201     | Create a new product       |
+| PUT    | `/products/{id}`   | 200/404 | Update an existing product |
+| DELETE | `/products/{id}`   | 204     | Delete a product           |
 
 ### Architecture
 
