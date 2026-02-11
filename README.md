@@ -8,7 +8,17 @@ A simple product catalog REST API built with Kotlin, Spring Boot 4, and PostgreS
 
 ### Domain
 
-The application manages **products** with the following attributes:
+The application manages **categories**, **products**, **reviews**, **customers**, and **orders**.
+
+**Category**
+
+| Field       | Type   | Required | Default |
+|-------------|--------|----------|---------|
+| id          | UUID   | auto     | —       |
+| name        | String | yes      | —       |
+| description | String | no       | null    |
+
+**Product**
 
 | Field       | Type        | Required | Default |
 |-------------|-------------|----------|---------|
@@ -16,12 +26,22 @@ The application manages **products** with the following attributes:
 | name        | String      | yes      | —       |
 | description | String      | no       | null    |
 | price       | BigDecimal  | yes      | —       |
-| category    | String      | yes      | —       |
+| category    | Category    | yes      | —       |
 | inStock     | Boolean     | no       | true    |
 
 ### API Endpoints
 
-All endpoints are under `/products`:
+Endpoints for categories:
+
+| Method | Path               | Status  | Description                |
+|--------|--------------------|---------|----------------------------|
+| GET    | `/categories`      | 200     | List all categories        |
+| GET    | `/categories/{id}` | 200/404 | Get a category by ID       |
+| POST   | `/categories`      | 201     | Create a new category      |
+| PUT    | `/categories/{id}` | 200/404 | Update an existing category|
+| DELETE | `/categories/{id}` | 200/404 | Delete a category          |
+
+Endpoints for products:
 
 | Method | Path             | Status  | Description              |
 |--------|------------------|---------|--------------------------|

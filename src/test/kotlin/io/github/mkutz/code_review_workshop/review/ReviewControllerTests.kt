@@ -23,13 +23,31 @@ class ReviewControllerTests(
     @Autowired val objectMapper: ObjectMapper,
 ) {
 
+    private fun createCategory(): String {
+        val categoryJson = objectMapper.writeValueAsString(
+            mapOf("name" to "Test Category"),
+        )
+
+        val result = mockMvc.perform(
+            post("/categories")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(categoryJson)
+        )
+            .andExpect(status().isCreated)
+            .andReturn()
+
+        return objectMapper.readTree(result.response.contentAsString)["id"].asString()
+    }
+
     @Test
     fun `create and list reviews`() {
+        val categoryId = createCategory()
+
         val productJson = objectMapper.writeValueAsString(
             mapOf(
                 "name" to "Reviewed Product",
                 "price" to 49.99,
-                "category" to "Test",
+                "category" to mapOf("id" to categoryId),
             )
         )
 

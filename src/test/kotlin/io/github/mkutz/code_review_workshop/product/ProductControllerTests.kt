@@ -2,6 +2,7 @@ package io.github.mkutz.code_review_workshop.product
 
 import io.github.mkutz.code_review_workshop.ContainersConfig
 import java.util.UUID
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -25,6 +26,25 @@ class ProductControllerTests(
     @Autowired val objectMapper: ObjectMapper,
 ) {
 
+    private lateinit var categoryId: String
+
+    @BeforeEach
+    fun setUp() {
+        val categoryJson = objectMapper.writeValueAsString(
+            mapOf("name" to "Test Category"),
+        )
+
+        val categoryResult = mockMvc.perform(
+            post("/categories")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(categoryJson)
+        )
+            .andExpect(status().isCreated)
+            .andReturn()
+
+        categoryId = objectMapper.readTree(categoryResult.response.contentAsString)["id"].asString()
+    }
+
     @Test
     fun `create and get product`() {
         val productJson = objectMapper.writeValueAsString(
@@ -32,7 +52,7 @@ class ProductControllerTests(
                 "name" to "Test Product",
                 "description" to "A test product",
                 "price" to 19.99,
-                "category" to "Test",
+                "category" to mapOf("id" to categoryId),
             )
         )
 
@@ -60,7 +80,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Listed Product",
                 "price" to 9.99,
-                "category" to "Test",
+                "category" to mapOf("id" to categoryId),
             )
         )
 
@@ -83,7 +103,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Original Name",
                 "price" to 10.00,
-                "category" to "Test",
+                "category" to mapOf("id" to categoryId),
             )
         )
 
@@ -101,7 +121,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Updated Name",
                 "price" to 15.00,
-                "category" to "Updated",
+                "category" to mapOf("id" to categoryId),
             )
         )
 
@@ -121,7 +141,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "To Delete",
                 "price" to 5.00,
-                "category" to "Test",
+                "category" to mapOf("id" to categoryId),
             )
         )
 
@@ -149,7 +169,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Searchable Widget",
                 "price" to 29.99,
-                "category" to "Widgets",
+                "category" to mapOf("id" to categoryId),
             )
         )
 
@@ -171,5 +191,4 @@ class ProductControllerTests(
         mockMvc.perform(get("/products/${UUID(0L, 0L)}"))
             .andExpect(status().isNotFound)
     }
-
 }
