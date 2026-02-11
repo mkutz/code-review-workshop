@@ -40,6 +40,11 @@ class ProductController(private val productRepository: ProductRepository) {
         }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: UUID) = productRepository.deleteById(id)
+    fun delete(@PathVariable id: UUID): ResponseEntity<Product> =
+        productRepository.findById(id)
+            .map { product ->
+                productRepository.delete(product)
+                ResponseEntity.ok(product)
+            }
+            .orElse(ResponseEntity.notFound().build())
 }
