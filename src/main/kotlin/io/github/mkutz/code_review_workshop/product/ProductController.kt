@@ -1,5 +1,6 @@
 package io.github.mkutz.code_review_workshop.product
 
+import io.github.mkutz.code_review_workshop.category.CategoryRepository
 import java.util.UUID
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 class ProductController(
     private val productRepository: ProductRepository,
     private val productSearchRepository: ProductSearchRepository,
+    private val categoryRepository: CategoryRepository,
 ) {
 
     @GetMapping
@@ -35,17 +37,24 @@ class ProductController(
             .orElse(ResponseEntity.notFound().build())
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody product: Product): Product = productRepository.save(product)
+    fun create(@RequestBody product: Product): ResponseEntity<Product> {
+        val category = product.category?.id?.let { categoryRepository.findById(it).orElse(null) }
+            ?: return ResponseEntity.badRequest().build()
+        product.category = category
+        return ResponseEntity.status(HttpStatus.CREATED).body(productRepository.save(product))
+    }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: UUID, @RequestBody product: Product): ResponseEntity<Product> =
-        if (productRepository.existsById(id)) {
-            product.id = id
-            ResponseEntity.ok(productRepository.save(product))
-        } else {
-            ResponseEntity.notFound().build()
+    fun update(@PathVariable id: UUID, @RequestBody product: Product): ResponseEntity<Product> {
+        if (!productRepository.existsById(id)) {
+            return ResponseEntity.notFound().build()
         }
+        val category = product.category?.id?.let { categoryRepository.findById(it).orElse(null) }
+            ?: return ResponseEntity.badRequest().build()
+        product.id = id
+        product.category = category
+        return ResponseEntity.ok(productRepository.save(product))
+    }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID): ResponseEntity<Product> =

@@ -38,6 +38,35 @@ The application manages **categories**, **products**, **reviews**, **customers**
 | email   | String | yes      | —       |
 | address | String | no       | null    |
 
+**Order**
+
+| Field      | Type           | Required | Default   |
+|------------|----------------|----------|-----------|
+| id         | UUID           | auto     | —         |
+| customer   | Customer       | yes      | —         |
+| items      | List<OrderItem>| yes      | —         |
+| status     | String         | no       | "PENDING" |
+| totalPrice | BigDecimal     | auto     | 0         |
+
+**OrderItem**
+
+| Field     | Type       | Required | Default |
+|-----------|------------|----------|---------|
+| id        | UUID       | auto     | —       |
+| product   | Product    | yes      | —       |
+| quantity  | Int        | yes      | —       |
+| unitPrice | BigDecimal | auto     | —       |
+
+**Review**
+
+| Field     | Type   | Required | Default |
+|-----------|--------|----------|---------|
+| id        | UUID   | auto     | —       |
+| productId | UUID   | yes      | —       |
+| author    | String | yes      | —       |
+| rating    | Int    | yes      | —       |
+| comment   | String | no       | null    |
+
 ### API Endpoints
 
 Endpoints for categories:
@@ -70,6 +99,15 @@ Endpoints for customers:
 | POST   | `/customers`       | 201     | Create a new customer      |
 | PUT    | `/customers/{id}`  | 200/404 | Update an existing customer|
 | DELETE | `/customers/{id}`  | 200/404 | Delete a customer          |
+
+Endpoints for orders:
+
+| Method | Path                  | Status  | Description                |
+|--------|-----------------------|---------|----------------------------|
+| POST   | `/orders`             | 201/404 | Create a new order         |
+| GET    | `/orders`             | 200     | List all orders            |
+| GET    | `/orders/{id}`        | 200/404 | Get an order by ID         |
+| PUT    | `/orders/{id}/status` | 200/404 | Update an order's status   |
 
 Reviews are nested under products:
 

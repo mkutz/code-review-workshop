@@ -10,7 +10,7 @@ import java.util.UUID
 class Customer(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID? = null,
-    var name: String,
-    var email: String,
+    var name: String = "",
+    var email: String = "",
     var address: String? = null,
 )

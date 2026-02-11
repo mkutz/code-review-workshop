@@ -10,6 +10,6 @@ import java.util.UUID
 class Category(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID? = null,
-    var name: String,
+    var name: String = "",
     var description: String? = null,
 )
