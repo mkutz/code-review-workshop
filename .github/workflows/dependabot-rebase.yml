@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Rebase all open Dependabot PRs
+      - name: Update all open Dependabot PR branches
         run: |
           gh pr list --author "app/dependabot" --state open --json number --jq '.[].number' \
           | while read -r pr; do
-              echo "Requesting rebase for PR #${pr}"
-              gh pr comment "$pr" --body "@dependabot rebase"
+              echo "Updating branch for PR #${pr}"
+              gh pr update-branch "$pr" --rebase || echo "  Failed to update PR #${pr} (may already be up to date)"
             done
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
