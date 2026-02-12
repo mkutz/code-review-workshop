@@ -143,6 +143,29 @@ class ProductControllerTests(
     }
 
     @Test
+    fun `search products by name`() {
+        val productJson = objectMapper.writeValueAsString(
+            mapOf(
+                "name" to "Searchable Widget",
+                "price" to 29.99,
+                "category" to "Widgets",
+            )
+        )
+
+        mockMvc.perform(
+            post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(productJson)
+        )
+            .andExpect(status().isCreated)
+
+        mockMvc.perform(get("/products/search").param("name", "Searchable"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$").isArray)
+            .andExpect(jsonPath("$[0].name").value("Searchable Widget"))
+    }
+
+    @Test
     fun `get non-existent product returns 404`() {
         mockMvc.perform(get("/products/${UUID(0L, 0L)}"))
             .andExpect(status().isNotFound)
