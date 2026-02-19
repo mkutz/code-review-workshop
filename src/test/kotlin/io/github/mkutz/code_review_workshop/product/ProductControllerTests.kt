@@ -136,7 +136,8 @@ class ProductControllerTests(
         val id = objectMapper.readTree(createResult.response.contentAsString)["id"].asString()
 
         mockMvc.perform(delete("/products/$id"))
-            .andExpect(status().isNoContent)
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.name").value("To Delete"))
 
         mockMvc.perform(get("/products/$id"))
             .andExpect(status().isNotFound)
