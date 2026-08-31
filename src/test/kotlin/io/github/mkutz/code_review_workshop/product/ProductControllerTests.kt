@@ -52,7 +52,7 @@ class ProductControllerTests(
                 "name" to "Test Product",
                 "description" to "A test product",
                 "price" to 19.99,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
@@ -64,6 +64,7 @@ class ProductControllerTests(
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.id").exists())
             .andExpect(jsonPath("$.name").value("Test Product"))
+            .andExpect(jsonPath("$.categoryId").value(categoryId))
             .andReturn()
 
         val id = objectMapper.readTree(result.response.contentAsString)["id"].asString()
@@ -80,7 +81,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Listed Product",
                 "price" to 9.99,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
@@ -103,7 +104,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Original Name",
                 "price" to 10.00,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
@@ -121,7 +122,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Updated Name",
                 "price" to 15.00,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
@@ -141,7 +142,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "To Delete",
                 "price" to 5.00,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
@@ -169,7 +170,7 @@ class ProductControllerTests(
             mapOf(
                 "name" to "Searchable Widget",
                 "price" to 29.99,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 

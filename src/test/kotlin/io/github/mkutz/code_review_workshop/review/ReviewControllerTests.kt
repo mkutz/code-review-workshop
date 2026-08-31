@@ -47,7 +47,7 @@ class ReviewControllerTests(
             mapOf(
                 "name" to "Reviewed Product",
                 "price" to 49.99,
-                "category" to mapOf("id" to categoryId),
+                "categoryId" to categoryId,
             )
         )
 
